@@ -1,0 +1,19 @@
+{
+    "name": "iankov/control-panel-news",
+    "description": "News module for iankov/control-panel",
+    "require": {
+        "iankov/control-panel": "@dev"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Iankov\\ControlPanelNews\\ServiceProvider"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Iankov\\ControlPanelNews\\": "src/"
+        }
+    }
+}
