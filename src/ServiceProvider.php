@@ -2,8 +2,6 @@
 
 namespace Iankov\ControlPanelNews;
 
-use Illuminate\Routing\Router;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseProvider;
 
 class ServiceProvider extends BaseProvider
@@ -13,7 +11,7 @@ class ServiceProvider extends BaseProvider
      *
      * @return void
      */
-    public function boot(Router $router)
+    public function boot()
     {
         $this->loadViewsFrom(__DIR__.'/views', 'icp-news');
 
