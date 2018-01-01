@@ -22,6 +22,8 @@ class ServiceProvider extends BaseProvider
         $this->publishes([
             __DIR__.'/views' => base_path('resources/views/vendor/iankov/control-panel-news'),
         ], 'icp_news_views');
+
+        $this->mergeConfigFrom(__DIR__ . '/config/icp-news.php', 'icp-news');
     }
 
     /**

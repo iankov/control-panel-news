@@ -92,10 +92,11 @@
         CKEDITOR.replace('editor', {
             width: '800px',
             height: '700px',
-            filebrowserImageBrowseUrl: '/control/laravel-filemanager?type=Images',
-            filebrowserImageUploadUrl: '/control/laravel-filemanager/upload?type=Images&_token={{csrf_token()}}',
-            filebrowserBrowseUrl: '/control/laravel-filemanager?type=Files',
-            filebrowserUploadUrl: '/control/laravel-filemanager/upload?type=Files&_token={{csrf_token()}}'
+            filebrowserImageBrowseUrl: '{{config('icp-news.ckeditor.file-browser-image-url')}}',
+            //filebrowserImageUploadUrl: '/control/laravel-filemanager/upload?type=Images&_token={{csrf_token()}}',
+
+            filebrowserBrowseUrl: '{{config('icp-news.ckeditor.file-browser-url')}}',
+            //filebrowserUploadUrl: '/control/laravel-filemanager/upload?type=Files&_token={{csrf_token()}}'
         });
     });
 </script>
