@@ -9,11 +9,6 @@ class NewsCategory extends Model
     protected $table = 'news_categories';
     protected $fillable = ['parent_id', 'title', 'keywords', 'description', 'slug', 'active'];
 
-    public function articles()
-    {
-        return $this->hasMany('App\News', 'category_id');
-    }
-
     public static function generateUniqueSlug($title)
     {
         $slug = str_slug($title);
