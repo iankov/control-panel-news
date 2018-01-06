@@ -2,13 +2,17 @@
 
 namespace Iankov\ControlPanelNews\Controllers\Control;
 
-use Iankov\ControlPanelNews\Models\NewsCategory;
 use Iankov\ControlPanelNews\Controllers\Controller;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class NewsCategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->category = config('icp-news.models.category');
+    }
+
     public function index()
     {
         return view('icp-news::category.index');
@@ -16,7 +20,7 @@ class NewsCategoryController extends Controller
 
     public function jsonIndex()
     {
-        return Datatables::of(NewsCategory::select('id', 'active', 'title', 'slug', 'updated_at'))
+        return Datatables::of($this->category::select('id', 'active', 'title', 'slug', 'updated_at'))
             ->editColumn('updated_at', function($item){
                 return $item->updated_at->format('d M Y, H:i:s');
             })
@@ -42,14 +46,14 @@ class NewsCategoryController extends Controller
     public function edit($id)
     {
         return view('icp-news::category.edit', [
-            'category' => NewsCategory::find($id)
+            'category' => $this->category::find($id)
         ]);
     }
 
     public function create()
     {
         return view('icp-news::category.create', [
-            'category' => new NewsCategory()
+            'category' => new $this->category()
         ]);
     }
 
@@ -67,14 +71,14 @@ class NewsCategoryController extends Controller
 
         $all = $request->all();
         if(empty($all['slug'])) {
-            $all['slug'] = NewsCategory::generateUniqueSlug($all['title']);
+            $all['slug'] = $this->category::generateUniqueSlug($all['title']);
         }
         $all['active'] = empty($all['active']) ? 0 : 1;
 
         if($id) {
-            NewsCategory::find($id)->fill($all)->save();
+            $this->category::find($id)->fill($all)->save();
         }else{
-            NewsCategory::create($all);
+            $this->category::create($all);
         }
 
         return redirect(icp_route('news.categories'));
@@ -82,7 +86,7 @@ class NewsCategoryController extends Controller
 
     public function toggleActive($id)
     {
-        $category = NewsCategory::find($id);
+        $category = $this->category::find($id);
         if($category){
             $category->active = $category->active ? 0 : 1;
             $category->save();
@@ -96,7 +100,7 @@ class NewsCategoryController extends Controller
         $ids = request()->input('ids');
         $ids = is_array($ids) ? $ids : [$id];
 
-        NewsCategory::whereIn('id', $ids)->delete();
+        $this->category::whereIn('id', $ids)->delete();
 
         return response()->json();
     }

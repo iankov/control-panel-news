@@ -35,12 +35,15 @@
             </div>
 
             @include('icp::forms.horizontal.text-group', ['name' => 'source', 'label' => 'Source', 'value' => old('source', $article->source)])
+
             @include('icp::forms.horizontal.text-group', [
                 'name' => 'image',
                 'label' => 'Image',
                 'value' => old('import_id', $article->image),
                 'attr' => ['style' => 'display: inline-block', 'id' => 'page_image']
             ])
+            @include('icp::forms.horizontal.checkbox-group', ['name' => 'auto_image', 'value' => old('auto_image', 0), 'label' => 'Auto image'])
+
         </div>
 
         <div class="col-md-6">
@@ -75,6 +78,13 @@
 <script>
     $(function () {
         Icp.iCheck('input[name=active]');
+        Icp.iCheck('input[name=auto_image]');
+        $('input[name=auto_image]').on('ifChecked', function(event) {
+            $('input[name=image]').prop('disabled', true);
+        }).on('ifUnchecked', function(event) {
+            $('input[name=image]').prop('disabled', false);
+        }).iCheck('toggle').iCheck('toggle');
+
         $('input[name=created_at]').daterangepicker({
             singleDatePicker: true,
             showDropdowns: true,
@@ -84,19 +94,7 @@
             timePickerSeconds: true
         });
 
-        // Replace the <textarea id="editor1"> with a CKEditor
-        // instance, using default configuration.
-        CKEDITOR.config.allowedContent = true;
-        CKEDITOR.config.contentsCss = '/assets/web/style.css';
-        CKEDITOR.config.bodyClass = 'block-content';
-        CKEDITOR.replace('editor', {
-            width: '800px',
-            height: '700px',
-            filebrowserImageBrowseUrl: '{{config('icp-news.ckeditor.file-browser-image-url')}}',
-            //filebrowserImageUploadUrl: '/control/laravel-filemanager/upload?type=Images&_token={{csrf_token()}}',
+        CKEDITOR.replace('editor', {!! json_encode(config('icp-news.ckeditor.config')) !!});
 
-            filebrowserBrowseUrl: '{{config('icp-news.ckeditor.file-browser-url')}}',
-            //filebrowserUploadUrl: '/control/laravel-filemanager/upload?type=Files&_token={{csrf_token()}}'
-        });
     });
 </script>

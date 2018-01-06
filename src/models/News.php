@@ -3,7 +3,6 @@
 namespace Iankov\ControlPanelNews\Models;
 
 use Illuminate\Database\Eloquent\Model;
-//use Illuminate\Support\Facades\Redis;
 
 class News extends Model
 {
@@ -32,14 +31,13 @@ class News extends Model
         return $slug;
     }
 
-    public function incViews($by = 1)
+    /*public function incViews($by = 1)
     {
-        Redis::hIncrBy(self::VIEWS_CACHE_KEY, $this->id, $by);
+        Redis::hIncrBy(static::VIEWS_CACHE_KEY, $this->id, $by);
     }
 
     public function getViewsAttribute($value)
     {
-        return 100;
         return $value + (int)Redis::hGet(News::VIEWS_CACHE_KEY, $this->id);
-    }
+    }*/
 }

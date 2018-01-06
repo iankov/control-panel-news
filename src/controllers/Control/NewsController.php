@@ -2,24 +2,28 @@
 
 namespace Iankov\ControlPanelNews\Controllers\Control;
 
-use Iankov\ControlPanelNews\Models\News;
-use Iankov\ControlPanelNews\Models\NewsCategory;
 use Iankov\ControlPanelNews\Controllers\Controller;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class NewsController extends Controller
 {
+    public function __construct()
+    {
+        $this->news = config('icp-news.models.news');
+        $this->category = config('icp-news.models.category');
+    }
+
     public function index()
     {
         return view('icp-news::index', [
-            'categories' => NewsCategory::all()
+            'categories' => $this->category::all()
         ]);
     }
 
     public function jsonIndex(Request $request)
     {
-        $news = News::select(['id', 'category_id', 'image', 'title', 'slug', 'views', 'created_at', 'active'])->with('category');
+        $news = $this->news::select(['id', 'category_id', 'image', 'title', 'slug', 'views', 'created_at', 'active'])->with('category');
 
         return Datatables::of($news)
             ->filter(function ($query) use ($request) {
@@ -68,23 +72,23 @@ class NewsController extends Controller
     public function view($id)
     {
         return view('icp-news::view', [
-            'article' => News::find($id)
+            'article' => $this->news::find($id)
         ]);
     }
 
     public function edit($id)
     {
         return view('icp-news::edit', [
-            'article' => News::find($id),
-            'categories' => NewsCategory::all()
+            'article' => $this->news::find($id),
+            'categories' => $this->category::all()
         ]);
     }
 
     public function create()
     {
         return view('icp-news::create', [
-            'article' => new News(),
-            'categories' => NewsCategory::all()
+            'article' => new $this->news(),
+            'categories' => $this->category::all()
         ]);
     }
 
@@ -101,17 +105,22 @@ class NewsController extends Controller
         ]);
         $all = $request->all();
         if(empty($all['slug'])) {
-            $all['slug'] = News::generateUniqueSlug($all['title']);
+            $all['slug'] = $this->news::generateUniqueSlug($all['title']);
         }
         $all['active'] = empty($all['active']) ? 0 : 1;
         if(empty($all['created_at'])){
             $all['created_at'] = null;
         }
 
+        //get image link from html src attribute
+        if(!empty($all['auto_image']) && preg_match('/<img\s+.*?src\=(\'|\")(.+?)\1/i', $all['content'], $match)) {
+            $all['image'] = $match[2];
+        }
+
         if($id) {
-            News::find($id)->fill($all)->save();
+            $this->news::find($id)->fill($all)->save();
         }else{
-            $article = News::create($all);
+            $article = $this->news::create($all);
             $id = $article->id;
         }
 
@@ -123,7 +132,7 @@ class NewsController extends Controller
 
     public function toggleActive($id)
     {
-        $news = News::find($id);
+        $news = $this->news::find($id);
         if($news){
             $news->active = $news->active ? 0 : 1;
             $news->save();
@@ -137,7 +146,7 @@ class NewsController extends Controller
         $ids = request()->input('ids');
         $ids = is_array($ids) ? $ids : [$id];
 
-        News::whereIn('id', $ids)->delete();
+        $this->news::whereIn('id', $ids)->delete();
 
         return response()->json();
     }
