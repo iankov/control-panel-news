@@ -2,7 +2,7 @@
     "name": "iankov/control-panel-news",
     "description": "News module for iankov/control-panel",
     "require": {
-        "iankov/control-panel": "@dev"
+        "iankov/control-panel": "^1.0"
     },
     "extra": {
         "laravel": {
