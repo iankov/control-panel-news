@@ -94,7 +94,7 @@
             timePickerSeconds: true
         });
 
-        CKEDITOR.replace('editor', {!! json_encode(config('icp-news.ckeditor.config')) !!});
+        CKEDITOR.replace('editor', {!! json_encode(config('icp.modules.news.ckeditor.config')) !!});
 
     });
 </script>

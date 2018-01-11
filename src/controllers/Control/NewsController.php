@@ -10,8 +10,8 @@ class NewsController extends Controller
 {
     public function __construct()
     {
-        $this->news = config('icp-news.models.news');
-        $this->category = config('icp-news.models.category');
+        $this->news = config('icp.modules.news.models.news');
+        $this->category = config('icp.modules.news.models.category');
     }
 
     public function index()

@@ -16,14 +16,8 @@ class ServiceProvider extends BaseProvider
         $this->loadViewsFrom(__DIR__.'/views', 'icp-news');
 
         $this->publishes([
-            __DIR__.'/config' => base_path('config'),
-        ], 'icp_news_config');
-
-        $this->publishes([
             __DIR__.'/views' => base_path('resources/views/vendor/iankov/control-panel-news'),
         ], 'icp_news_views');
-
-        $this->mergeConfigFrom(__DIR__ . '/config/icp-news.php', 'icp-news');
     }
 
     /**
@@ -34,5 +28,9 @@ class ServiceProvider extends BaseProvider
     public function register()
     {
         include __DIR__.'/helpers.php';
+
+        $config = require __DIR__ . '/config.php';
+        $icp = $this->app['config']->get('icp', []);
+        $this->app['config']->set('icp', array_replace_recursive($config, $icp));
     }
 }
