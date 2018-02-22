@@ -25,24 +25,5 @@ return [
             ]
         ]
     ],
-    'menu' => [
-        'groups' => [
-            'news' => [
-                'title' => 'News',
-                'icon' => 'file-text',
-                'items' => [
-                    'categories' => [
-                        'icon' => 'th',
-                        'title' => 'News categories',
-                        'icp_route' => 'news.categories'
-                    ],
-                    'news' => [
-                        'icon' => 'list',
-                        'title' => 'News',
-                        'icp_route' => 'news'
-                    ]
-                ]
-            ]
-        ],
-    ],
+
 ];
