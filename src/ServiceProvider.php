@@ -18,6 +18,10 @@ class ServiceProvider extends BaseProvider
         $this->publishes([
             __DIR__.'/views' => base_path('resources/views/vendor/iankov/control-panel-news'),
         ], 'icp_news_views');
+
+        $this->publishes([
+            __DIR__.'/../database/migrations/' => database_path('migrations')
+        ], 'icp_news_migrations');
     }
 
     /**

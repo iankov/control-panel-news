@@ -1,28 +1,34 @@
 # Installation
 
-```bash
-composer require iankov/control-panel-news
-```
+* Install the package
+    ```bash
+    composer require iankov/control-panel-news
+    ```
 
-Run migrations
+* Publish migrations
+    ```bash
+    php artisan vendor:publish --tag=icp_migrations
+    ```
 
-```bash
-php artisan migrate --path=vendor/iankov/control-panel-news/database/migrations
-```
+* Run migrations
 
-Add items (news & categories) to `icp-menu.php` config file
-```
-[
-    'icon' => 'th',
-    'title' => 'News categories',
-    'link' => icp_route('news.categories')
-],
-[
-    'icon' => 'list',
-    'title' => 'News',
-    'link' => icp_route('news')
-]
-```
+    ```bash
+    php artisan migrate
+    ```
+
+* Add items (news & categories) to `icp-menu.php` config file
+    ```php
+    [
+        'icon' => 'th',
+        'title' => 'News categories',
+        'link' => icp_route('news.categories')
+    ],
+    [
+        'icon' => 'list',
+        'title' => 'News',
+        'link' => icp_route('news')
+    ]
+    ```
 
 ## Configuration
 You can modify configuration options by adding them to `config/icp.php`<br>
