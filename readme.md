@@ -7,7 +7,7 @@
 
 * Publish migrations
     ```bash
-    php artisan vendor:publish --tag=icp_migrations
+    php artisan vendor:publish --tag=icp_news_migrations
     ```
 
 * Run migrations
