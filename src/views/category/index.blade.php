@@ -1,6 +1,6 @@
 @extends('icp::master')
 
-@section('title', 'Article categories')
+@section('title', 'News categories')
 
 @section('content')
 
